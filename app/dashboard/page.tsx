@@ -1,36 +1,53 @@
 import Link from "next/link";
 
-const recentCompanions = [
+const companions = [
   {
-    id: "python",
-    name: "Pyra the Python Mentor",
-    subject: "Python",
-    progress: 65,
-    description: "Continue your Python programming journey.",
+    id: "neura",
+    name: "Neura the Brainy Explorer",
+    subject: "Science",
+    topic: "Neural Networks of the Brain",
+    duration: "45 mins",
+    color: "bg-purple-200",
   },
   {
-    id: "java",
-    name: "Javon the Java Mentor",
-    subject: "Java",
-    progress: 40,
-    description: "Practice Java and object-oriented programming.",
+    id: "countsy",
+    name: "Countsy the Number Wizard",
+    subject: "Maths",
+    topic: "Solving Linear Equations",
+    duration: "20 mins",
+    color: "bg-yellow-200",
   },
   {
-    id: "sql",
-    name: "Quanta the SQL Analyst",
-    subject: "SQL",
-    progress: 80,
-    description: "Continue learning queries and databases.",
+    id: "verba",
+    name: "Verba the Vocabulary Builder",
+    subject: "Language",
+    topic: "Mastering Tenses in English",
+    duration: "32 mins",
+    color: "bg-sky-200",
   },
 ];
 
-const subjects = [
-  "Python",
-  "Java",
-  "C++",
-  "JavaScript",
-  "SQL",
-  "DSA",
+const completedLessons = [
+  {
+    title: "Neura the Brainy Explorer",
+    subject: "Science",
+    duration: "45 mins",
+  },
+  {
+    title: "Countsy the Number Wizard",
+    subject: "Maths",
+    duration: "20 mins",
+  },
+  {
+    title: "Verba the Vocabulary Builder",
+    subject: "Language",
+    duration: "32 mins",
+  },
+  {
+    title: "Pyra the Python Mentor",
+    subject: "Python",
+    duration: "38 mins",
+  },
 ];
 
 export default function DashboardPage() {
@@ -38,40 +55,32 @@ export default function DashboardPage() {
     <main className="min-h-screen bg-white px-6 py-10">
       <section className="mx-auto max-w-7xl">
         {/* Header */}
-        <div>
-          <p className="text-sm font-medium text-orange-500">
-            Welcome back
-          </p>
+        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-sm font-medium text-orange-500">
+              Welcome back
+            </p>
 
-          <h1 className="mt-2 text-4xl font-bold tracking-tight">
-            Continue your learning journey
-          </h1>
+            <h1 className="mt-2 text-4xl font-bold tracking-tight">
+              Your Learning Dashboard
+            </h1>
 
-          <p className="mt-3 max-w-2xl text-gray-600">
-            Pick up where you left off or explore a new AI learning
-            companion.
-          </p>
-        </div>
-
-        {/* Quick Actions */}
-        <div className="mt-8 flex flex-wrap gap-4">
-          <Link
-            href="/companions"
-            className="rounded-md bg-orange-500 px-6 py-3 font-semibold text-white hover:bg-orange-600"
-          >
-            Explore Companions
-          </Link>
+            <p className="mt-3 max-w-2xl text-gray-600">
+              Continue learning with your AI companions or discover
+              something new.
+            </p>
+          </div>
 
           <Link
-            href="/profile"
-            className="rounded-md border border-gray-300 px-6 py-3 font-semibold hover:bg-gray-50"
+            href="/companions/new"
+            className="rounded-xl bg-orange-500 px-5 py-3 text-center font-semibold text-white hover:bg-orange-600"
           >
-            View Profile
+            Create Companion
           </Link>
         </div>
 
-        {/* Recent Learning */}
-        <section className="mt-14">
+        {/* Companion Cards */}
+        <section className="mt-12">
           <div className="mb-6 flex items-end justify-between">
             <div>
               <h2 className="text-2xl font-bold">
@@ -79,120 +88,122 @@ export default function DashboardPage() {
               </h2>
 
               <p className="mt-1 text-sm text-gray-500">
-                Your recent learning companions
+                Pick up where you left off.
               </p>
             </div>
+
+            <Link
+              href="/companions"
+              className="text-sm font-semibold hover:underline"
+            >
+              View all →
+            </Link>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {recentCompanions.map((companion) => (
+          <div className="grid gap-6 lg:grid-cols-3">
+            {companions.map((companion) => (
               <div
                 key={companion.id}
-                className="rounded-2xl border p-6"
+                className={`rounded-2xl border-2 border-black p-6 ${companion.color}`}
               >
-                <span className="inline-block rounded-full bg-orange-100 px-3 py-1 text-xs font-medium text-orange-700">
+                <span className="inline-block rounded-full bg-white px-3 py-1 text-xs font-semibold">
                   {companion.subject}
                 </span>
 
-                <h3 className="mt-4 text-xl font-bold">
+                <h3 className="mt-5 text-2xl font-bold">
                   {companion.name}
                 </h3>
 
-                <p className="mt-2 text-sm text-gray-600">
-                  {companion.description}
+                <p className="mt-3 text-sm text-gray-700">
+                  Topic: {companion.topic}
                 </p>
 
-                <div className="mt-6">
-                  <div className="mb-2 flex items-center justify-between text-sm">
-                    <span className="font-medium">
-                      Progress
-                    </span>
-
-                    <span className="text-gray-500">
-                      {companion.progress}%
-                    </span>
-                  </div>
-
-                  <div className="h-2 overflow-hidden rounded-full bg-gray-200">
-                    <div
-                      className="h-full rounded-full bg-orange-500"
-                      style={{
-                        width: `${companion.progress}%`,
-                      }}
-                    />
-                  </div>
-                </div>
+                <p className="mt-3 text-sm text-gray-600">
+                  {companion.duration}
+                </p>
 
                 <Link
-                  href={`/companions/${companion.id}`}
-                  className="mt-6 inline-block font-semibold hover:underline"
+                  href={`/companions/${companion.id}/session`}
+                  className="mt-6 inline-block rounded-xl bg-orange-500 px-5 py-3 font-semibold text-white hover:bg-orange-600"
                 >
-                  Continue →
+                  Launch Lesson
                 </Link>
               </div>
             ))}
           </div>
         </section>
 
-        {/* Subjects */}
-        <section className="mt-14">
-          <h2 className="text-2xl font-bold">
-            Your Subjects
-          </h2>
+        {/* Recent Lessons */}
+        <section className="mt-12 rounded-3xl border-2 border-black p-6 md:p-8">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-bold">
+                Recently completed lessons
+              </h2>
 
-          <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-            {subjects.map((subject) => (
-              <Link
-                key={subject}
-                href="/companions"
-                className="rounded-xl border p-5 text-center font-semibold transition hover:-translate-y-1 hover:shadow-sm"
+              <p className="mt-1 text-sm text-gray-500">
+                Your latest learning activity.
+              </p>
+            </div>
+
+            <Link
+              href="/session-history"
+              className="text-sm font-semibold hover:underline"
+            >
+              View history →
+            </Link>
+          </div>
+
+          <div className="mt-8 space-y-4">
+            {completedLessons.map((lesson) => (
+              <div
+                key={lesson.title}
+                className="flex flex-col gap-3 rounded-2xl border p-4 sm:flex-row sm:items-center sm:justify-between"
               >
-                {subject}
-              </Link>
+                <div>
+                  <h3 className="font-semibold">
+                    {lesson.title}
+                  </h3>
+
+                  <p className="mt-1 text-sm text-gray-500">
+                    {lesson.subject}
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <span className="rounded-full bg-black px-3 py-1 text-xs font-medium text-white">
+                    {lesson.subject}
+                  </span>
+
+                  <span className="text-sm font-medium">
+                    {lesson.duration}
+                  </span>
+                </div>
+              </div>
             ))}
           </div>
         </section>
 
         {/* Stats */}
-        <section className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="rounded-2xl bg-gray-50 p-6">
-            <p className="text-sm text-gray-500">
-              Learning Sessions
-            </p>
-
-            <p className="mt-2 text-3xl font-bold">
-              24
-            </p>
+        <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="rounded-2xl bg-purple-100 p-6">
+            <p className="text-sm text-gray-600">Lessons Completed</p>
+            <p className="mt-2 text-3xl font-bold">23</p>
           </div>
 
-          <div className="rounded-2xl bg-gray-50 p-6">
-            <p className="text-sm text-gray-500">
-              Hours Learned
-            </p>
-
-            <p className="mt-2 text-3xl font-bold">
-              18.5
-            </p>
+          <div className="rounded-2xl bg-yellow-100 p-6">
+            <p className="text-sm text-gray-600">Companions Created</p>
+            <p className="mt-2 text-3xl font-bold">10</p>
           </div>
 
-          <div className="rounded-2xl bg-gray-50 p-6">
-            <p className="text-sm text-gray-500">
-              Subjects
-            </p>
-
-            <p className="mt-2 text-3xl font-bold">
-              6
-            </p>
+          <div className="rounded-2xl bg-sky-100 p-6">
+            <p className="text-sm text-gray-600">Learning Hours</p>
+            <p className="mt-2 text-3xl font-bold">18.5</p>
           </div>
 
-          <div className="rounded-2xl bg-gray-50 p-6">
-            <p className="text-sm text-gray-500">
-              Current Streak
-            </p>
-
-            <p className="mt-2 text-3xl font-bold">
-              7 days
-            </p>
+          <div className="rounded-2xl bg-orange-100 p-6">
+            <p className="text-sm text-gray-600">Current Streak</p>
+            <p className="mt-2 text-3xl font-bold">7 days</p>
           </div>
         </section>
       </section>

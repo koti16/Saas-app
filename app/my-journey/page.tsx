@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const completedLessons = [
   {
@@ -43,70 +44,103 @@ const completedLessons = [
   },
 ];
 
+const stats = [
+  {
+    value: "23",
+    label: "Lessons Completed",
+    className: "bg-purple-100",
+  },
+  {
+    value: "10",
+    label: "Companions Created",
+    className: "bg-yellow-100",
+  },
+  {
+    value: "18.5",
+    label: "Learning Hours",
+    className: "bg-blue-100",
+  },
+  {
+    value: "7",
+    label: "Day Streak",
+    className: "bg-orange-100",
+  },
+];
+
 export default function MyJourneyPage() {
   return (
-    <main className="min-h-screen bg-white px-6 py-10">
+    <main className="min-h-screen bg-white px-4 py-8 sm:px-6 sm:py-12">
       <section className="mx-auto max-w-6xl">
-
-        {/* Profile Header */}
-        <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
+        {/* Header */}
+        <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="flex items-center gap-5">
-            <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gray-100 text-3xl font-bold">
+            <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-black text-3xl font-bold text-white">
               U
             </div>
 
             <div>
-              <h1 className="text-3xl font-bold">
-                Your Learning Journey
+              <p className="text-sm font-semibold text-orange-500">
+                Your progress
+              </p>
+
+              <h1 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">
+                My Learning Journey
               </h1>
 
-              <p className="mt-1 text-gray-500">
+              <p className="mt-2 text-gray-500">
                 Keep learning, keep growing.
               </p>
             </div>
           </div>
 
-          {/* Stats */}
-          <div className="flex gap-4">
-            <div className="rounded-xl border px-6 py-5">
-              <p className="text-2xl font-bold text-orange-500">
-                23
-              </p>
-
-              <p className="mt-1 text-sm text-gray-600">
-                Lessons Completed
-              </p>
-            </div>
-
-            <div className="rounded-xl border px-6 py-5">
-              <p className="text-2xl font-bold text-orange-500">
-                10
-              </p>
-
-              <p className="mt-1 text-sm text-gray-600">
-                Companions Created
-              </p>
-            </div>
-          </div>
+          <Link
+            href="/companions"
+            className="rounded-xl bg-orange-500 px-6 py-3 text-center font-semibold text-white hover:bg-orange-600"
+          >
+            Continue Learning
+          </Link>
         </div>
 
-        {/* Completed Lessons */}
-        <section className="mt-10 rounded-3xl border-2 border-black p-6 md:p-8">
-          <h2 className="text-2xl font-bold">
-            Completed lessons
-          </h2>
+        {/* Stats */}
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {stats.map((stat) => (
+            <div
+              key={stat.label}
+              className={`rounded-2xl p-6 ${stat.className}`}
+            >
+              <p className="text-3xl font-bold">{stat.value}</p>
 
-          <div className="mt-8 grid grid-cols-[1fr_auto_auto] gap-4 px-2 text-sm font-medium text-gray-500">
-            <span>Lessons</span>
-            <span className="w-28 text-center">Subject</span>
-            <span className="w-24 text-right">Duration</span>
+              <p className="mt-1 text-sm text-gray-600">
+                {stat.label}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {/* Completed lessons */}
+        <section className="mt-10 overflow-hidden rounded-3xl border-2 border-black">
+          <div className="border-b px-6 py-6 sm:px-8">
+            <h2 className="text-2xl font-bold">
+              Completed Lessons
+            </h2>
+
+            <p className="mt-1 text-sm text-gray-500">
+              Review what you've already learned.
+            </p>
           </div>
 
-          <div className="mt-4 divide-y">
+          {/* Desktop headings */}
+          <div className="hidden grid-cols-[1fr_130px_100px] gap-4 px-8 py-4 text-xs font-semibold uppercase tracking-wide text-gray-500 md:grid">
+            <span>Lesson</span>
+            <span className="text-center">Subject</span>
+            <span className="text-right">Duration</span>
+          </div>
+
+          <div className="divide-y">
             {completedLessons.map((lesson) => (
               <div
                 key={lesson.title}
-                className="grid grid-cols-[1fr_auto_auto] items-center gap-4 py-5"
+                className="px-6 py-5 sm:px-8 md:grid md:grid-cols-[1fr_130px_100px] md:items-center md:gap-4"
               >
                 {/* Lesson */}
                 <div className="flex items-center gap-4">
@@ -121,28 +155,39 @@ export default function MyJourneyPage() {
                     />
                   </div>
 
-                  <div>
+                  <div className="min-w-0">
                     <h3 className="font-semibold">
                       {lesson.title}
                     </h3>
 
                     <p className="mt-1 text-sm text-gray-600">
-                      Topic: {lesson.topic}
+                      {lesson.topic}
                     </p>
                   </div>
                 </div>
 
-                {/* Subject */}
-                <span className="w-28 rounded-full bg-black px-3 py-2 text-center text-xs font-medium text-white">
-                  {lesson.subject}
-                </span>
+                {/* Mobile metadata */}
+                <div className="mt-4 flex items-center gap-3 md:mt-0">
+                  <span className="rounded-full bg-black px-3 py-1.5 text-xs font-medium text-white md:w-full md:text-center">
+                    {lesson.subject}
+                  </span>
 
-                {/* Duration */}
-                <span className="w-24 text-right text-sm font-medium">
-                  {lesson.duration}
-                </span>
+                  <span className="text-sm font-medium text-gray-600 md:w-full md:text-right">
+                    {lesson.duration}
+                  </span>
+                </div>
               </div>
             ))}
+          </div>
+
+          {/* Footer */}
+          <div className="border-t bg-gray-50 px-6 py-6 text-center sm:px-8">
+            <Link
+              href="/session-history"
+              className="font-semibold hover:underline"
+            >
+              View complete session history →
+            </Link>
           </div>
         </section>
       </section>
